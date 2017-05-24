@@ -90,8 +90,7 @@ public class RequestSocket {
             String readLine;
             try {
                 while ((readLine = bufferedReader.readLine()) != null && flag) {
-                    Handler handler = HandlerDispatcher.getHandler(readLine);
-                    handler.handle();
+                    HandlerDispatcher.getHandler(readLine).handle();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
