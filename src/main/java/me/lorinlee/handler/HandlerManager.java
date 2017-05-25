@@ -41,7 +41,18 @@ public class HandlerManager {
     }
 
     public void clear() {
-        handlerBlockingQueue.clear();
+        try {
+            Thread.sleep(200);
+            List<Handler> handlerList = new LinkedList<>();
+            handlerBlockingQueue.drainTo(handlerList);
+            handlerList.forEach((handler -> {
+                if (handler instanceof OutputHandler) {
+                    handler.handle();
+                }
+            }));
+        } catch (InterruptedException e) {
+
+        }
     }
 
 }

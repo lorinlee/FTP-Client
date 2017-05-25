@@ -116,7 +116,7 @@ public class RequestSocket {
                     HandlerDispatcher.getInstance().dispatch(readLine);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
         }
 
