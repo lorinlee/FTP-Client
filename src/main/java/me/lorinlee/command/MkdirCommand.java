@@ -9,7 +9,19 @@ public class MkdirCommand extends Command {
 
     private String dir;
 
+    public MkdirCommand() {
+        this.dir = "";
+    }
+
     public MkdirCommand(String dir) {
+        this.dir = dir;
+    }
+
+    public String getDir() {
+        return dir;
+    }
+
+    public void setDir(String dir) {
         this.dir = dir;
     }
 

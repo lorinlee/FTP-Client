@@ -39,7 +39,7 @@ public class PasvHandler extends Handler {
             int suffix = Integer.parseInt(hostPort[5]);
             port = prefix*256 + suffix;
 
-            DataSocketManager.getInstance().putPasvSocket(new Socket(host, port));
+            DataSocketManager.getInstance().putSocket(new Socket(host, port));
 
         } else {
             System.out.println(info);

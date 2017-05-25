@@ -30,7 +30,7 @@ public class PutCommand extends Command {
             requestSocket.sendRequest(new PasvRequest());
         }
         try {
-            FilePutDataStream filePutDataStream = new FilePutDataStream(dataSocketManager.takePasvSocket(), fromFileName);
+            FilePutDataStream filePutDataStream = new FilePutDataStream(dataSocketManager.takeSocket(), fromFileName);
             filePutDataStream.run();
         } catch (IOException e) {
             e.printStackTrace();

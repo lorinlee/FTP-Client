@@ -6,6 +6,7 @@ import me.lorinlee.request.PasvRequest;
 import me.lorinlee.request.RetrRequest;
 
 import java.io.IOException;
+import java.net.Socket;
 
 /**
  * Created by lorin on 17-5-22.
@@ -14,6 +15,9 @@ public class GetCommand extends Command {
 
     private String fromFileName;
     private String toFileName;
+
+    public GetCommand() {
+    }
 
     public GetCommand(String fromFileName) {
         this.fromFileName = fromFileName;
@@ -25,17 +29,32 @@ public class GetCommand extends Command {
         this.toFileName = toFileName;
     }
 
+    public String getFromFileName() {
+        return fromFileName;
+    }
+
+    public void setFromFileName(String fromFileName) {
+        this.fromFileName = fromFileName;
+    }
+
+    public String getToFileName() {
+        return toFileName;
+    }
+
+    public void setToFileName(String toFileName) {
+        this.toFileName = toFileName;
+    }
+
     public void run() {
-        if (AppConfig.getMode() == AppConfig.MODE_PASV || true) {
-            requestSocket.sendRequest(new PasvRequest());
-        }
-        requestSocket.sendRequest(new RetrRequest(fromFileName));
+        dataSocketManager.newSocket();
         try {
-            FileGetDataStream fileGetDataStream = new FileGetDataStream(dataSocketManager.takePasvSocket(), toFileName);
-            fileGetDataStream.run();
+            Socket socket = dataSocketManager.pollSocket();
+            if (socket != null) {
+                requestSocket.sendRequest(new RetrRequest(fromFileName));
+                FileGetDataStream fileGetDataStream = new FileGetDataStream(socket, toFileName);
+                fileGetDataStream.run();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

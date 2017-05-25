@@ -13,9 +13,10 @@ import java.net.Socket;
  */
 public class LsCommand extends Command {
 
-    private String path = ".";
+    private String path;
 
     public LsCommand() {
+        this.path = "";
     }
 
     public LsCommand(String path) {
@@ -23,15 +24,14 @@ public class LsCommand extends Command {
     }
 
     public void run() {
-        if (AppConfig.getMode() == AppConfig.MODE_PASV || true) {
-            requestSocket.sendRequest(new PasvRequest());
-        }
+        dataSocketManager.newSocket();
         try {
-            requestSocket.sendRequest(new ListRequest(path));
-            OutputData outputData = new OutputData(dataSocketManager.takePasvSocket());
-            outputData.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            Socket socket = dataSocketManager.pollSocket();
+            if (socket != null) {
+                requestSocket.sendRequest(new ListRequest(path));
+                OutputData outputData = new OutputData(socket);
+                outputData.run();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

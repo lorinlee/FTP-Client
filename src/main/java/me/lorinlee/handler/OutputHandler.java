@@ -10,22 +10,12 @@ import java.util.List;
  */
 public class OutputHandler extends Handler {
 
-    public static final BlockingQueue<String> outputQueue = new LinkedBlockingQueue<>();
-
     public OutputHandler(String info) {
         super(info);
     }
 
     public void execute() {
-        outputQueue.offer(info);
+        System.out.println(info);
     }
 
-    public static void outputAll() throws InterruptedException {
-        Thread.sleep(500);
-        List<String> outputs = new LinkedList<>();
-        outputQueue.drainTo(outputs);
-        for (String line: outputs) {
-            System.out.println(line);
-        }
-    }
 }

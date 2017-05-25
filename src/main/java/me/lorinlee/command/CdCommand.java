@@ -13,6 +13,18 @@ public class CdCommand extends Command {
         this.path = path;
     }
 
+    public CdCommand() {
+
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     @Override
     public void run() {
         requestSocket.sendRequest(new CwdRequest(path));

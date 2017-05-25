@@ -2,6 +2,7 @@ package me.lorinlee.network;
 
 import me.lorinlee.handler.Handler;
 import me.lorinlee.handler.HandlerDispatcher;
+import me.lorinlee.handler.HandlerManager;
 import me.lorinlee.request.Request;
 
 import java.io.*;
@@ -13,6 +14,10 @@ import java.net.Socket;
 public class RequestSocket {
 
     private Socket socket = null;
+
+    private String host;
+
+    private int port;
 
     private BufferedReader bufferedReader = null;
 
@@ -34,32 +39,34 @@ public class RequestSocket {
         return RequestSocketHolder.REQUEST_SOCKET;
     }
 
-    public void setSocket(Socket socket) throws IOException {
+    public void connect(String host, int port) throws IOException {
         if (this.socket != null) this.close();
-        this.socket = socket;
+        this.host = host;
+        this.port = port;
+        this.socket = new Socket(host, port);
         this.bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         this.bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         this.handleThread = new HandleThread(bufferedReader);
         this.handleThread.start();
     }
 
+    public boolean isConnected() {
+        return socket != null && socket.isConnected();
+    }
+
     public void close() throws IOException {
-        if (this.bufferedWriter != null) {
-            this.bufferedWriter.close();
-            this.bufferedWriter = null;
-        }
-        if (this.bufferedReader != null) {
-            this.bufferedReader.close();
-            this.bufferedReader = null;
-        }
         if (this.socket != null ) {
             this.socket.close();
             this.socket = null;
         }
-        if (this.handleThread != null) {
-            this.handleThread.setFlag(false);
-            this.handleThread = null;
+        if (this.bufferedWriter != null) {
+            this.bufferedWriter = null;
         }
+        if (this.bufferedReader != null) {
+            this.bufferedReader = null;
+        }
+        DataSocketManager.getInstance().clear();
+        HandlerManager.getInstance().clear();
     }
 
     public void sendRequest(Request request) {
@@ -69,6 +76,22 @@ public class RequestSocket {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 
     private class HandleThread extends Thread {
@@ -90,11 +113,15 @@ public class RequestSocket {
             String readLine;
             try {
                 while ((readLine = bufferedReader.readLine()) != null && flag) {
-                    HandlerDispatcher.getHandler(readLine).handle();
+                    HandlerDispatcher.getInstance().dispatch(readLine);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        public void close() {
+            this.setFlag(false);
         }
 
     }
@@ -105,5 +132,10 @@ public class RequestSocket {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void exit() throws IOException {
+        this.close();
+        handleThread.close();
     }
 }

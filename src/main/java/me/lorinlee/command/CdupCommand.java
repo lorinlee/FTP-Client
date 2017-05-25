@@ -7,9 +7,21 @@ import me.lorinlee.request.CdupRequest;
  */
 public class CdupCommand extends Command {
 
-    private String path;
+    private String path = "";
 
     public CdupCommand(String path) {
+        this.path = path;
+    }
+
+    public CdupCommand() {
+
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
         this.path = path;
     }
 
