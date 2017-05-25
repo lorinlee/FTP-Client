@@ -65,22 +65,19 @@ public class CommandManager {
                 commandBuilder = new MkdirCommandBuilder();
                 break;
             case "pwd":
-//                commandBuilder = new PwdCommandB();
+                commandBuilder = new PwdCommandBuilder();
                 break;
             case "rm":
-//                commandBuilder = new RmCommand(scanner.next());
+                commandBuilder = new RmCommandBuilder();
                 break;
-            case "rmd":
-//                command = new RmdCommand(scanner.next());
+            case "delete":
+                commandBuilder = new DeleteCommandBuilder();
                 break;
             case "get":
                 commandBuilder = new GetCommandBuilder();
                 break;
             case "put":
-//                commandBuilder = new PutCommandB(scanner.next());
-                break;
-            case "stat":
-//                command = new StatCommand();
+                commandBuilder = new PutCommandBuilder();
                 break;
             case "quit":
             case "exit":
@@ -94,6 +91,12 @@ public class CommandManager {
                 break;
             case "close":
                 commandBuilder = new CloseCommandBuilder();
+                break;
+            case "bin":
+                commandBuilder = new BinCommandBuilder();
+                break;
+            case "ascii":
+                commandBuilder = new AsciiCommandBuilder();
                 break;
             default:
                 commandBuilder = new InvalidCommandBuilder();
