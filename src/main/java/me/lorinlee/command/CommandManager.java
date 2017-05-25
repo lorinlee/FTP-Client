@@ -36,7 +36,6 @@ public class CommandManager {
         while (flag) {
             HandlerManager.getInstance().handle();
             if (! RequestSocket.getInstance().isStatus()) {
-                RequestSocket.getInstance().close();
                 System.exit(0);
             }
             System.out.print("ftp> ");
@@ -85,13 +84,16 @@ public class CommandManager {
                 break;
             case "quit":
             case "exit":
-//                commandBuilder = new QuitCommand();
+                commandBuilder = new QuitCommandBuilder();
                 break;
             case "open":
                 commandBuilder = new OpenCommandBuilder();
                 break;
             case "user":
                 commandBuilder = new UserCommandBuilder();
+                break;
+            case "close":
+                commandBuilder = new CloseCommandBuilder();
                 break;
             default:
                 commandBuilder = new InvalidCommandBuilder();
