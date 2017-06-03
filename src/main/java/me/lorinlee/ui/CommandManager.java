@@ -1,5 +1,6 @@
 package me.lorinlee.ui;
 
+import me.lorinlee.network.RequestSocket;
 import me.lorinlee.ui.command.Command;
 import me.lorinlee.ui.command.builder.*;
 
@@ -26,8 +27,8 @@ public class CommandManager {
     }
 
     public void commandLoop() throws InterruptedException, IOException {
-        boolean flag = true;
-        while (flag) {
+        while (true) {
+            if (! RequestSocket.getInstance().isAlive()) break;
             System.out.print("ftp> ");
             String cmdLine = scanner.nextLine();
             Command command = this.getCommand(cmdLine);

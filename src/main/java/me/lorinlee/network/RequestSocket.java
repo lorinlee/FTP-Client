@@ -13,7 +13,7 @@ public class RequestSocket extends CommonSocket {
     private static final int SHORT_READ_MODE = 200;
     private static final int LONG_READ_MODE = 10000;
 
-    private boolean status = true;
+    private boolean alive = true;
 
     private static class RequestSocketHolder {
         private final static RequestSocket REQUEST_SOCKET = new RequestSocket();
@@ -32,12 +32,12 @@ public class RequestSocket extends CommonSocket {
         }
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isAlive() {
+        return alive;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setAlive(boolean alive) {
+        this.alive = alive;
     }
 
     public void setShortReadMode() throws SocketException {

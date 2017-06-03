@@ -20,6 +20,6 @@ public class QuitCommand extends Command {
         } catch (IOException e) {
             ExceptionHandler.handle(e);
         }
-        requestSocket.setStatus(false);
+        requestSocket.setAlive(false);
     }
 }
