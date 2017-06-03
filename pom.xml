@@ -17,7 +17,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>me.lorinlee.FTPClient</mainClass>
+                            <mainClass>me.lorinlee.ui.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
