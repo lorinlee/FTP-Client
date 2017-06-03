@@ -17,7 +17,7 @@ public class StatCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new StatRequest(dir));
     }
 }

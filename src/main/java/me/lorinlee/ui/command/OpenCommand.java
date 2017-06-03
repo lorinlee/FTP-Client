@@ -2,6 +2,7 @@ package me.lorinlee.ui.command;
 
 import me.lorinlee.ui.command.builder.CommandBuilder;
 import me.lorinlee.ui.command.builder.UserCommandBuilder;
+import me.lorinlee.ui.command.exception.ExceptionHandler;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,28 +44,29 @@ public class OpenCommand extends Command {
         this.port = port;
     }
 
-    public void before() {
+    protected void before() {
         requestSocket.setHost(host);
         requestSocket.setPort(port);
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         try {
             requestSocket.connect();
             List<String> lines = requestSocket.readLines();
             lines.forEach(System.out::println);
         } catch (IOException e) {
+            ExceptionHandler.handle(e);
             try {
                 requestSocket.close();
                 System.out.println("ftp: " + e.toString());
             } catch (IOException e1) {
-
+                ExceptionHandler.handle(e1);
             }
         }
     }
 
-    public void after() {
+    protected void after() {
         if (requestSocket.isConnected()) {
             String localUser = System.getenv("USER");
             System.out.print("Name (" + requestSocket.getHost() + ":" + localUser + "):" );

@@ -18,11 +18,11 @@ public class UserCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new UserRequest(user));
     }
 
-    public void after() {
+    protected void after() {
         List<String> lines = requestSocket.readLines();
         lines.forEach((line) -> {
             System.out.println(line);

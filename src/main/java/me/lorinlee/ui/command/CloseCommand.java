@@ -1,6 +1,7 @@
 package me.lorinlee.ui.command;
 
 import me.lorinlee.request.QuitRequest;
+import me.lorinlee.ui.command.exception.ExceptionHandler;
 
 import java.io.IOException;
 
@@ -9,14 +10,18 @@ import java.io.IOException;
  */
 public class CloseCommand extends Command {
     @Override
-    public void execute() {
+    protected void execute() {
         if (requestSocket.isConnected()) {
-            try {
-                requestSocket.sendRequest(new QuitRequest());
-                requestSocket.close();
-            } catch (IOException e) {
-                System.out.println("ftp: " + e.toString());
-            }
+            requestSocket.sendRequest(new QuitRequest());
+        }
+    }
+
+    protected void after() {
+        super.after();
+        try {
+            requestSocket.close();
+        } catch (IOException e) {
+            ExceptionHandler.handle(e);
         }
     }
 }

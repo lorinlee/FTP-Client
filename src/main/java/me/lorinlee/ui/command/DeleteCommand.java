@@ -14,7 +14,7 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new DeleRequest(dir));
     }
 }

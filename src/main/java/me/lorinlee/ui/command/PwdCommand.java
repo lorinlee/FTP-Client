@@ -7,7 +7,7 @@ import me.lorinlee.request.PwdRequest;
  */
 public class PwdCommand extends Command {
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new PwdRequest());
     }
 }

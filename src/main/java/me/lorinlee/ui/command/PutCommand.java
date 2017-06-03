@@ -28,11 +28,11 @@ public class PutCommand extends Command {
         this.toFileName = fromFileName;
     }
 
-    public void before() {
+    protected void before() {
         socket = DataSocket.getDataSocket();
     }
 
-    public void execute() {
+    protected void execute() {
         if (socket != null) {
             FilePutDataConnector filePutDataConnector = new FilePutDataConnector(socket, fromFileName);
             filePutDataConnector.run();

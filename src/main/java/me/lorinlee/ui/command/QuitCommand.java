@@ -1,5 +1,8 @@
 package me.lorinlee.ui.command;
 
+import me.lorinlee.request.QuitRequest;
+import me.lorinlee.ui.command.exception.ExceptionHandler;
+
 import java.io.IOException;
 
 /**
@@ -7,11 +10,15 @@ import java.io.IOException;
  */
 public class QuitCommand extends Command {
     @Override
-    public void execute() {
+    protected void execute() {
+        if (requestSocket.isConnected()) requestSocket.sendRequest(new QuitRequest());
+    }
+
+    protected void after() {
         try {
             if (requestSocket.isConnected()) requestSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.handle(e);
         }
         requestSocket.setStatus(false);
     }

@@ -7,7 +7,7 @@ import me.lorinlee.request.QuitRequest;
  */
 public class ByeCommand extends Command {
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new QuitRequest());
     }
 }

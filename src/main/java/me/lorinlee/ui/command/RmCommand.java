@@ -14,7 +14,7 @@ public class RmCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new RmdRequest(dir));
     }
 }

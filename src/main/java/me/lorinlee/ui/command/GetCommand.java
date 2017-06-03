@@ -46,11 +46,11 @@ public class GetCommand extends Command {
         this.toFileName = toFileName;
     }
 
-    public void before() {
+    protected void before() {
          socket = DataSocket.getDataSocket();
     }
 
-    public void execute() {
+    protected void execute() {
         if (socket != null) {
             requestSocket.sendRequest(new RetrRequest(fromFileName));
             FileGetDataConnector fileGetDataConnector = new FileGetDataConnector(socket, toFileName);

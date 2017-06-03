@@ -7,7 +7,7 @@ import me.lorinlee.request.TypeRequest;
  */
 public class AsciiCommand extends Command {
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(TypeRequest.getAsciiTypeRequest());
     }
 }

@@ -26,7 +26,7 @@ public class MkdirCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    protected void execute() {
         requestSocket.sendRequest(new MkdRequest(dir));
     }
 }
