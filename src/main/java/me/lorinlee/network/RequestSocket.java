@@ -3,11 +3,15 @@ package me.lorinlee.network;
 import me.lorinlee.request.Request;
 
 import java.io.IOException;
+import java.net.SocketException;
 
 /**
  * Created by lorin on 17-5-22.
  */
 public class RequestSocket extends CommonSocket {
+
+    private static final int SHORT_READ_MODE = 200;
+    private static final int LONG_READ_MODE = 10000;
 
     private boolean status = true;
 
@@ -34,5 +38,17 @@ public class RequestSocket extends CommonSocket {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public void setShortReadMode() throws SocketException {
+        socket.setSoTimeout(SHORT_READ_MODE);
+    }
+
+    public void setLongReadMode() throws SocketException {
+        socket.setSoTimeout(LONG_READ_MODE);
+    }
+
+    public String readLine() throws IOException {
+        return bufferedReader.readLine();
     }
 }
